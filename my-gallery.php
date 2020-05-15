@@ -1,9 +1,17 @@
 <?php
 
-require "con_pdo.php";
-// echo '<pre>';
+// Authorization check ............
 
 session_start();
+if(!isset($_SESSION['user_id'])) {
+  header("Location: ./index.php");
+  die;
+}
+
+// ................................
+
+require "con_pdo.php";
+// echo '<pre>';
 
 $limit = 10;
 if (isset($_GET['page'])) {
