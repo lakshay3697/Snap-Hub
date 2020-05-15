@@ -2,6 +2,8 @@
 
 require "con_pdo.php";
 
+session_start();
+
 if ($_POST['type'] == "signup") {
 
     $error_flag = 0;
@@ -137,6 +139,10 @@ elseif ($_POST['type'] == "login")
 
         if(password_verify($pass, $password_query))
         {
+            $_SESSION['user_name'] = $res[0]['name'];	
+            $_SESSION['user_email'] = $res[0]['email'];
+            $_SESSION['user_id'] = $res[0]['id'];
+
             echo json_encode(array("STATUS"=>"success","message"=>"You are now logged in!"));
             die;
         }
