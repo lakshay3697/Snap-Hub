@@ -3,8 +3,6 @@
 require "con_pdo.php";
 // echo '<pre>';
 
-session_start();
-
 $limit = 10;
 if (isset($_GET['page'])) {
     $pn = $_GET['page'];
@@ -13,9 +11,7 @@ if (isset($_GET['page'])) {
 };
 $start_from = ($pn - 1) * $limit;
 
-$user =  $_SESSION['user_id'];
-
-$get_images = "SELECT user_images.image_title,user_images.image_name,user_images.image_description FROM user_images WHERE user_id = $user LIMIT $start_from, $limit";
+$get_images = "SELECT users.name,user_images.user_id,user_images.image_title,user_images.image_name,user_images.image_description FROM user_images INNER JOIN users ON user_images.user_id = users.id LIMIT $start_from, $limit";
 
 // echo $get_images . "\n";
 
@@ -54,7 +50,7 @@ include_once("header.php");
     ?>
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <div class="card">
-                    <img class="card-img-top" src="./uploads/user_<?php echo $user."/".$image_array['image_name']; ?>" alt="Card image cap" class="img-fluid">
+                    <img class="card-img-top" src="./uploads/user_<?php echo $image_array['user_id']."/".$image_array['image_name']; ?>" alt="Card image cap" class="img-fluid">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $image_array['image_title']; ?></h5>
                         <p class="card-text"><?php echo ($image_array['image_description']!="")?$image_array['image_description']:"NA"; ?></p>
