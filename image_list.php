@@ -5,56 +5,91 @@ error_reporting(0);
 // echo "Server query string is :- \n";
 // echo $_SERVER['QUERY_STRING']."\n";
 
+include_once 'pagination.php';
+
+$limit = 8;
+
 function httpGet($url)
 {
-	$ch = curl_init();
+    $ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-	//  curl_setopt($ch,CURLOPT_HEADER, false);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+    //  curl_setopt($ch,CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
-	$output = curl_exec($ch);
+    $output = curl_exec($ch);
 
-	curl_close($ch);
+    curl_close($ch);
 
-	return $output;
+    return $output;
 }
 
-$exploded_query_string = explode('&',$_SERVER['QUERY_STRING']);
+$exploded_query_string = explode('&', $_SERVER['QUERY_STRING']);
 
 // print_r($exploded_query_string);
 
 $query_params = array();
 
-foreach($exploded_query_string as $param_val_pair)
-{
-  $query_params[explode('=',$param_val_pair)[0]] = explode('=',$param_val_pair)[1];
+foreach ($exploded_query_string as $param_val_pair) {
+    $query_params[explode('=', $param_val_pair)[0]] = explode('=', $param_val_pair)[1];
 }
 
-// print_r($query_params); 
+// echo "Query params before :- \n";
+// print_r($query_params);
 
-if(!array_key_exists('page',$query_params))
-{
+if (!array_key_exists('page', $query_params)) {
     $query_params['page'] = 1;
+} else {
+    if ($query_params['page'] == "")
+        $query_params['page'] = 1;
 }
+if (!array_key_exists('sort_by', $query_params)) {
+    $query_params['sort_by'] = "date";
+} else {
+    if ($query_params['sort_by'] == "")
+        $query_params['sort_by'] = "date";
+}
+if (!array_key_exists('order', $query_params)) {
+    $query_params['order'] = "Ascending";
+} else {
+    if ($query_params['order'] == "")
+        $query_params['order'] = "Ascending";
+}
+
+// echo "Query params after :- \n";
+// print_r($query_params);
+
 
 $curl_request_query_string = "";
 
-foreach($query_params as $param => $param_value)
-{
-    if($param=="sort_by"||$param=="order"||$param=="page")
-        $curl_request_query_string .= $param."=".$param_value."&";
+foreach ($query_params as $param => $param_value) {
+    if ($param == "sort_by" || $param == "order" || $param == "page")
+        $curl_request_query_string .= $param . "=" . $param_value . "&";
 }
 
 $curl_request_query_string .= "referrer=publist";
 
+// echo "Curl request query string \n";
+// echo $curl_request_query_string."\n"; die;
+
 // echo $_SERVER['SERVER_NAME']."/Pics_Gallore/fetch_images.php?" . $curl_request_query_string."\n"; die;
 
-$images_fetch_resp = json_decode(httpGet($_SERVER['SERVER_NAME']."/Pics_Gallore/fetch_images.php?" . $curl_request_query_string), true);
+$images_fetch_resp = json_decode(httpGet($_SERVER['SERVER_NAME'] . "/Pics_Gallore/fetch_images.php?" . $curl_request_query_string), true);
 
+// print_r($images_fetch_resp); die;
 $images_array_chunk = $images_fetch_resp['data'];
+
+$total_records = $images_fetch_resp['total_images'];
+
+// Initialize pagination class
+$pagConfig = array(
+    'baseURL' => 'http://localhost/Pics_Gallore/image_list.php',
+    'totalRows' => $total_records,
+    'perPage' => $limit
+);
+$pagination =  new Pagination($pagConfig);
 
 
 $page = "image_list";
@@ -68,6 +103,10 @@ include_once("header.php");
         height: 50vh;
         object-fit: cover;
     }
+
+    .pagination {
+        margin: auto;
+    }
 </style>
 
 <div class="container-fluid">
@@ -76,7 +115,7 @@ include_once("header.php");
             <div class="row">
                 <div class="form-group col-xs-12 col-sm-6">
                     <label for="sort">Sort by</label>
-                    <select class="form-control" id="sort">
+                    <select class="form-control" name="sort">
                         <option value="date">Date</option>
                         <option value="size">Size</option>
                         <option value="name">Name</option>
@@ -108,7 +147,7 @@ include_once("header.php");
     ?>
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <div class="card">
-                    <img class="card-img-top" src="./uploads/user_<?php echo $image_array['user_id'] . "/" . $image_array['image_name']; ?>" alt="Card image cap" class="img-fluid">
+                    <a data-fancybox="public-gallery" href="./uploads/user_<?php echo $image_array['user_id'] . "/" . $image_array['image_name']; ?>"><img class="card-img-top" src="./uploads/user_<?php echo $image_array['user_id'] . "/" . $image_array['image_name']; ?>" alt="Card image cap" class="img-fluid"></a>
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $image_array['image_title']; ?></h5>
                         <p class="card-text"><?php echo ($image_array['image_description'] != "") ? $image_array['image_description'] : "NA"; ?></p>
@@ -121,6 +160,11 @@ include_once("header.php");
         echo '</div><br><br>';
     }
     ?>
+    <!-- pagination -->
+    <div class="pagination mb-4">
+        <?php echo $pagination->createLinks(); ?>
+    </div>
+
 </div>
 
 <?php
@@ -129,15 +173,14 @@ include_once("footer.php");
 
 ?>
 <script>
-    $(function() {
-        $('#sort_order').bootstrapToggle({
-            on: 'Descending',
-            off: 'Ascending'
+    $(document).ready(function() {
+        $('[data-fancybox="public-gallery"]').fancybox({
+            animationDuration: 100
         });
     })
 
     var parameters = "",
-    par_dat = {};
+        par_dat = {};
     parameters = window.location.search;
     if (parameters != "") {
         var temp = parameters.split("?")[1];
@@ -147,7 +190,24 @@ include_once("footer.php");
         }
     }
 
-    // console.log(par_dat);
+    if (par_dat.hasOwnProperty('sort_by') && par_dat['sort_by'] != "") {
+        $('[name=sort]').val(par_dat['sort_by']);
+    } else {
+        $('[name=sort]').val("date");
+    }
+
+    if (par_dat.hasOwnProperty('order') && par_dat['order'] != "") {
+        if (par_dat['order'] == "Ascending") {
+            $('#inlineRadio1').prop('checked', true);
+        } else {
+            $('#inlineRadio2').prop('checked', true);
+        }
+    } else {
+        $('#inlineRadio1').prop('checked', true);
+    }
+
+    // console.log('<?php echo $total_records; ?>');
+    // init('<?php echo $total_records; ?>');
 
     $('#sort_form').submit((e) => {
         var formElement = "#sort_form";
@@ -162,16 +222,14 @@ include_once("footer.php");
         if (sort_by == "date" && sort_order == "Ascending") {
             redirect_url = "./image_list.php";
 
-            if(par_dat.hasOwnProperty('page')&&par_dat['page']!="")
-            {
+            if (par_dat.hasOwnProperty('page') && par_dat['page'] != "") {
                 redirect_url = redirect_url + '?page=' + par_dat['page'];
             }
 
         } else {
             redirect_url = "./image_list.php?sort_by=" + sort_by + "&order=" + sort_order;
 
-            if(par_dat.hasOwnProperty('page')&&par_dat['page']!="")
-            {
+            if (par_dat.hasOwnProperty('page') && par_dat['page'] != "") {
                 redirect_url = redirect_url + '&page=' + par_dat['page'];
             }
         }
