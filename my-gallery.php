@@ -155,11 +155,14 @@ include_once("header.php");
             foreach ($row_images_array as $image_array) {
         ?>
                 <div class="col-md-3 col-sm-12 col-xs-12">
-                    <div class="card" style="margin-bottom: 0.5em;>
-                        <a data-fancybox="private-gallery" href="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>"><img class="card-img-top" src="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>" alt="Card image cap" class="img-fluid"></a>
+                    <div class="card" style="margin-bottom: 0.5rem;">
+                    <a data-fancybox="private-gallery" href="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>"><img class="card-img-top" src="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>" alt="Card image cap" class="img-fluid"></a>
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo $image_array['image_title']; ?></h5>
-                            <p class="card-text"><?php echo ($image_array['image_description'] != "") ? $image_array['image_description'] : "NA"; ?></p>
+                            <h5 class="card-title" style="margin-bottom:0.40em;font-size:1.35rem;"><?php echo $image_array['image_title']; ?></h5>
+                            <!-- <hr> -->
+                            <p class="card-text" style="font-size: 1rem;font-family: cursive;"><?php echo ($image_array['image_description'] != "") ? $image_array['image_description'] : "NA"; ?></p>
+                            <!-- <hr>
+                            <p class="card-text ml-auto"><small class="text-muted" style="font-size:85%;font-weight:600;">Posted by - <i class="fa fa-user-circle" aria-hidden="true"></i> <?php echo $image_array['name']; ?></small></p> -->
                         </div>
                     </div>
                 </div>
