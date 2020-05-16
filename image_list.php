@@ -110,6 +110,8 @@ include_once("header.php");
 </style>
 
 <div class="container-fluid" style="padding-bottom:3em;">
+    <h4 class="title">Filter options:</h4>
+    <span><hr></span>
     <div class="container">
         <form id="sort_form">
             <div class="row">
@@ -139,6 +141,7 @@ include_once("header.php");
             </div>
         </form>
     </div>
+    <hr>
     <div class="pub_gal">
         <?php
         foreach ($images_array_chunk as $row_images_array) {

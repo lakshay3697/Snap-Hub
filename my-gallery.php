@@ -118,6 +118,8 @@ include_once("header.php");
 </style>
 
 <div class="container-fluid" style="padding-bottom:3em;">
+    <h4 class="title">Filter options:</h4>
+    <span><hr></span>
     <div class="container">
         <form id="sort_form">
             <div class="row">
@@ -147,6 +149,7 @@ include_once("header.php");
             </div>
         </form>
     </div>
+    <hr>
     <div class="pvt_gal">
         <?php
         foreach ($images_array_chunk as $row_images_array) {
@@ -156,7 +159,7 @@ include_once("header.php");
         ?>
                 <div class="col-md-3 col-sm-12 col-xs-12">
                     <div class="card" style="margin-bottom: 0.5rem;">
-                    <a data-fancybox="private-gallery" href="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>"><img class="card-img-top" src="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>" alt="Card image cap" class="img-fluid"></a>
+                        <a data-fancybox="private-gallery" href="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>"><img class="card-img-top" src="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>" alt="Card image cap" class="img-fluid"></a>
                         <div class="card-body">
                             <h5 class="card-title" style="margin-bottom:0.40em;font-size:1.35rem;"><?php echo $image_array['image_title']; ?></h5>
                             <!-- <hr> -->
