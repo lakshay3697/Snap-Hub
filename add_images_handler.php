@@ -1,8 +1,5 @@
 <?php
 
-// echo '<pre>';
-// print_r($_POST);
-// print_r($_FILES); die;
 require "con_pdo.php";
 
 session_start();
@@ -95,8 +92,6 @@ if($_POST['type']=="add_images")
     $uploaded_file_ext = strtolower(end($exploded_uploaded_file_name));
 
     $allowed_extensions = array("png", "jpg", "jpeg");
-
-    // print_r($_FILES); die;
 
     if($uploaded_image_file_name!=""&&$error_flag!=1)
     {

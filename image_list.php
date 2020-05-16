@@ -1,9 +1,6 @@
 <?php
 
-// echo '<pre>';
 error_reporting(0);
-// echo "Server query string is :- \n";
-// echo $_SERVER['QUERY_STRING']."\n";
 
 include_once 'pagination.php';
 
@@ -16,7 +13,6 @@ function httpGet($url)
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-    //  curl_setopt($ch,CURLOPT_HEADER, false);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
     $output = curl_exec($ch);
@@ -28,16 +24,11 @@ function httpGet($url)
 
 $exploded_query_string = explode('&', $_SERVER['QUERY_STRING']);
 
-// print_r($exploded_query_string);
-
 $query_params = array();
 
 foreach ($exploded_query_string as $param_val_pair) {
     $query_params[explode('=', $param_val_pair)[0]] = explode('=', $param_val_pair)[1];
 }
-
-// echo "Query params before :- \n";
-// print_r($query_params);
 
 if (!array_key_exists('page', $query_params)) {
     $query_params['page'] = 1;
@@ -58,10 +49,6 @@ if (!array_key_exists('order', $query_params)) {
         $query_params['order'] = "Ascending";
 }
 
-// echo "Query params after :- \n";
-// print_r($query_params);
-
-
 $curl_request_query_string = "";
 
 foreach ($query_params as $param => $param_value) {
@@ -71,14 +58,10 @@ foreach ($query_params as $param => $param_value) {
 
 $curl_request_query_string .= "referrer=publist";
 
-// echo "Curl request query string \n";
-// echo $curl_request_query_string."\n"; die;
-
 // echo $_SERVER['SERVER_NAME']."/Pics_Gallore/fetch_images.php?" . $curl_request_query_string."\n"; die;
 
 $images_fetch_resp = json_decode(httpGet($_SERVER['SERVER_NAME'] . "/Pics_Gallore/fetch_images.php?" . $curl_request_query_string), true);
 
-// print_r($images_fetch_resp); die;
 $images_array_chunk = $images_fetch_resp['data'];
 
 if(array_key_exists('total_images',$images_fetch_resp))
@@ -86,7 +69,6 @@ if(array_key_exists('total_images',$images_fetch_resp))
 else
     $total_records = 0;
 
-// Initialize pagination class
 if($total_records!=0)
 {
     $pagConfig = array(
@@ -109,10 +91,6 @@ include_once("header.php");
         height: 50vh;
         object-fit: cover;
     }
-
-    /* .pagination {
-        margin: auto;
-    } */
 </style>
 
 <div class="container-fluid" style="padding-bottom:3em;">
@@ -131,7 +109,6 @@ include_once("header.php");
                 </div>
                 <div class="form-group col-xs-12 col-sm-6">
                     <label for="sort_order">Sort order</label><br>
-                    <!-- <input type="checkbox" id="sort_order" required> -->
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Ascending" checked>
                         <label class="form-check-label" for="inlineRadio1">Asc</label>
@@ -173,7 +150,6 @@ include_once("header.php");
                             <a data-fancybox="public-gallery" title="<?php echo $image_array['image_name']; ?>" href="./uploads/user_<?php echo $image_array['user_id'] . "/" . $image_array['image_name']; ?>"><img class="card-img-top" src="./uploads/user_<?php echo $image_array['user_id'] . "/" . $image_array['image_name']; ?>" alt="Card image cap" class="img-fluid"></a>
                             <div class="card-body">
                                 <h5 class="card-title" style="margin-bottom:0.40em;font-size:1.35rem;"><?php echo $image_array['image_title']; ?></h5>
-                                <!-- <hr> -->
                                 <p class="card-text" style="font-size: 1rem;font-family: cursive;"><?php echo ($image_array['image_description'] != "") ? $image_array['image_description'] : "NA"; ?></p>
                                 <hr>
                                 <p class="card-text ml-auto"><small class="text-muted" style="font-size:85%;font-weight:600;">Posted by - <i class="fa fa-user-circle" aria-hidden="true"></i> <?php echo $image_array['name']; ?></small></p>
@@ -189,7 +165,6 @@ include_once("header.php");
         ?>
     </div>
 
-    <!-- pagination -->
     <div class="pagination_cont" style="padding-bottom: 2em;text-align:center;">
         <div class="inner_div" style="display: inline-block;margin: auto;">
             <?php 
@@ -242,15 +217,10 @@ include_once("footer.php");
         $('#inlineRadio1').prop('checked', true);
     }
 
-    // console.log('<?php echo $total_records; ?>');
-    // init('<?php echo $total_records; ?>');
-
     $('#sort_form').submit((e) => {
         var formElement = "#sort_form";
         e.preventDefault();
-        // console.log("I am here now!");
-        // console.log(par_dat);
-        // debugger;
+        
         var sort_by = e.currentTarget.sort.value;
         var sort_order = e.currentTarget.inlineRadioOptions.value;
         var redirect_url = "";
@@ -269,9 +239,6 @@ include_once("footer.php");
                 redirect_url = redirect_url + '&page=' + par_dat['page'];
             }
         }
-
-        // console.log(redirect_url);
-        // debugger;
 
         window.location = redirect_url;
 

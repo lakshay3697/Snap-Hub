@@ -33,9 +33,6 @@ include_once("footer.php");
         e.preventDefault();
         var email = e.currentTarget.email.value;
         var pass = e.currentTarget.password.value;
-        // console.log(email);
-        // console.log(pass);
-        // debugger;
 
         if (email && pass) {
             $.ajax({
@@ -44,20 +41,9 @@ include_once("footer.php");
                 url: './form_handler.php',
                 data: {
                     type: 'login',
-                    // file_check : 0,
                     form_data: {
-                        // source: 'reg_form',
-                        // name: name,
                         email: email,
-                        password: pass,
-                        // password2: confirm_password,
-                        // location: location,
-                        // experience: experience,
-                        // salary: salary,
-                        // education: education,
-                        // curr_employer: curr_employer,
-                        // add_details: add_details
-                        // paramet: par_dat
+                        password: pass
                     }
                 },
                 success: function(data) {
@@ -66,8 +52,6 @@ include_once("footer.php");
                         toastr.error(data.message,"Login Error!");
                     } else {
                         toastr.success(data.message,"Login Successful!");
-                        // sessionStorage.setItem('status', 'loggedIn')
-                        // window.location = '../receptix_new/index.php';
                         window.location = './my-gallery.php';
 
                     }

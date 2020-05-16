@@ -1,6 +1,5 @@
 <?php
 
-// echo '<pre>';
 require "con_pdo.php";
 
 session_start();
@@ -46,8 +45,6 @@ if($_REQUEST['referrer']=='publist')
 
     $get_images .= " LIMIT $start_from, $limit";
 
-    // echo $get_images."\n";
-
     $stmt_get_images = $conn->prepare($get_images);
     $stmt_get_images->execute();
 
@@ -56,18 +53,19 @@ if($_REQUEST['referrer']=='publist')
     if ($rows_returned == 0) 
     {
         echo json_encode(array("STATUS"=>"error","data"=>[]));
+        die;
     } 
     else {
         $images_array = $stmt_get_images->fetchAll(PDO::FETCH_ASSOC);
         $images_array_chunk = array_chunk($images_array, 4);
 
         echo json_encode(array("STATUS"=>"success","data"=>$images_array_chunk,"total_images"=>$total_images));
+        die;
     }
 }
 elseif($_REQUEST['referrer']=='pvtlist')
 {
-    // echo "Inside this pvtlist case \n";
-    // echo json_encode(array("hell" => array())); die;
+    
     $pn = $_REQUEST['page'];
 
     $start_from = ($pn - 1) * $limit;
@@ -105,8 +103,6 @@ elseif($_REQUEST['referrer']=='pvtlist')
 
     $get_images .= " LIMIT $start_from, $limit";
 
-    // echo $get_images."\n"; die;
-
     $stmt_get_images = $conn->prepare($get_images);
     $stmt_get_images->execute();
 
@@ -114,17 +110,17 @@ elseif($_REQUEST['referrer']=='pvtlist')
 
     if ($rows_returned == 0) 
     {
-        // echo "In here \n";
         echo json_encode(array("STATUS"=>"error","data"=>[]));
+        die;
     } 
     else {
-        // echo "In else \n";
+    
         $images_array = $stmt_get_images->fetchAll(PDO::FETCH_ASSOC);
-        // print_r($images_array);
+        
         $images_array_chunk = array_chunk($images_array, 4);
-        // print_r($images_array_chunk);
 
         echo json_encode(array("STATUS"=>"success","data"=>$images_array_chunk,"total_images"=>$total_images));
+        die;
     }
 }
 
