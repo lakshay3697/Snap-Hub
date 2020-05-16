@@ -117,7 +117,7 @@ include_once("header.php");
     }
 </style>
 
-<div class="container-fluid">
+<div class="container-fluid" style="padding-bottom:3em;">
     <div class="container">
         <form id="sort_form">
             <div class="row">
@@ -147,29 +147,32 @@ include_once("header.php");
             </div>
         </form>
     </div>
-    <?php
-    foreach ($images_array_chunk as $row_images_array) {
-        echo '<div class="row">';
+    <div class="pvt_gal">
+        <?php
+        foreach ($images_array_chunk as $row_images_array) {
+            echo '<div class="row" style="margin-bottom:1.5em;">';
 
-        foreach ($row_images_array as $image_array) {
-    ?>
-            <div class="col-md-3 col-sm-12 col-xs-12">
-                <div class="card">
-                    <a data-fancybox="private-gallery" href="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>"><img class="card-img-top" src="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>" alt="Card image cap" class="img-fluid"></a>
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo $image_array['image_title']; ?></h5>
-                        <p class="card-text"><?php echo ($image_array['image_description'] != "") ? $image_array['image_description'] : "NA"; ?></p>
+            foreach ($row_images_array as $image_array) {
+        ?>
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <div class="card" style="margin-bottom: 0.5em;>
+                        <a data-fancybox="private-gallery" href="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>"><img class="card-img-top" src="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>" alt="Card image cap" class="img-fluid"></a>
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $image_array['image_title']; ?></h5>
+                            <p class="card-text"><?php echo ($image_array['image_description'] != "") ? $image_array['image_description'] : "NA"; ?></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-    <?php
-        }
+        <?php
+            }
 
-        echo '</div><br><br>';
-    }
-    ?>
+            echo '</div>';
+        }
+        ?>
+    </div>
+
     <!-- pagination -->
-    <div class="pagination mb-4">
+    <div class="pagination" style="padding-bottom: 2em;">
         <?php echo $pagination->createLinks(); ?>
     </div>
 

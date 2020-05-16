@@ -18,6 +18,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="./public/styles/style.css">
 </head>
 
 <body>
@@ -48,6 +49,7 @@ if (session_status() == PHP_SESSION_NONE) {
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toogle" data-toggle="dropdown" id="navbarDropdownMenu"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;<?php echo $_SESSION['user_name']; ?>&nbsp;<i class="fa fa-caret-down"></i></a>
                             <div class="dropdown-menu">
+                                <a href="./image_list.php" class="dropdown-item">Public Gallery</a>
                                 <a href="./my-gallery.php" class="dropdown-item">My Gallery</a>
                                 <a href="./add-images.php" class="dropdown-item">Add Images</a>
                             </div>

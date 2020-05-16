@@ -5,28 +5,29 @@ include_once("header.php");
 
 
 ?>
-
-<div class="container">
-    <form id="sign_up_form">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" name="name" placeholder="Enter name" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" name="email" placeholder="Enter email" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
-        </div>
-        <div class="form-group">
-            <label for="password2">Password</label>
-            <input type="password" class="form-control" name="password2" placeholder="Confirm Password" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+<!-- <div id="page-container"> -->
+    <div class="container" style="padding-bottom:3em;">
+        <form id="sign_up_form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" name="name" placeholder="Enter name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" name="email" placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
+            </div>
+            <div class="form-group">
+                <label for="password2">Password</label>
+                <input type="password" class="form-control" name="password2" placeholder="Confirm Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+<!-- </div> -->
 
 
 <?php
@@ -81,10 +82,9 @@ include_once("footer.php");
                 if (data.STATUS == 'error') {
                     $(formElement).find('button[type="submit"]').removeAttr('disabled');
                     // $(formElement).find('.modal-body').removeClass('loading');
-                    toastr.error(data.message,"Registration Error!");
-                } 
-                else {
-                    toastr.success(data.message,"Registration Successful!");
+                    toastr.error(data.message, "Registration Error!");
+                } else {
+                    toastr.success(data.message, "Registration Successful!");
                     window.location = './login.php';
                 }
                 // console.log(data);
