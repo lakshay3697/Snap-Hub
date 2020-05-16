@@ -98,6 +98,7 @@ include_once("footer.php");
         // sessionStorage.setItem('status', 'loggedIn')
         toastr.success(data.message,"Add Images Module Success!");
         $('#add_image_form').trigger("reset");
+        $(formElement).find('button[type="submit"]').removeAttr('disabled');
         }
 
     },

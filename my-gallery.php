@@ -92,17 +92,24 @@ $curl_request_query_string .= "referrer=pvtlist&logged_in_user=" . $logged_in_us
 
 $images_fetch_resp = json_decode(httpGet($_SERVER['SERVER_NAME'] . "/Pics_Gallore/fetch_images.php?" . $curl_request_query_string), true);
 
-// print_r($images_fetch_resp); die;
+// print_r($images_fetch_resp); 
 $images_array_chunk = $images_fetch_resp['data'];
+// print_r($images_array_chunk);
 
-$total_records = $images_fetch_resp['total_images'];
+if (array_key_exists('total_images', $images_fetch_resp))
+    $total_records = $images_fetch_resp['total_images'];
+else
+    $total_records = 0;
+// echo $total_records."\n"; die;
 
-$pagConfig = array(
-    'baseURL' => 'http://localhost/Pics_Gallore/my-gallery.php',
-    'totalRows' => $total_records,
-    'perPage' => $limit
-);
-$pagination =  new Pagination($pagConfig);
+if ($total_records != 0) {
+    $pagConfig = array(
+        'baseURL' => 'http://localhost/Pics_Gallore/my-gallery.php',
+        'totalRows' => $total_records,
+        'perPage' => $limit
+    );
+    $pagination =  new Pagination($pagConfig);
+}
 
 $page = "my-gallery";
 include_once("header.php");
@@ -119,7 +126,8 @@ include_once("header.php");
 
 <div class="container-fluid" style="padding-bottom:3em;">
     <h4 class="title">Filter options:</h4>
-    <span><hr></span>
+    <span>
+        <hr></span>
     <div class="container">
         <form id="sort_form">
             <div class="row">
@@ -151,35 +159,51 @@ include_once("header.php");
     </div>
     <hr>
     <div class="pvt_gal">
+        <h1 class="text-center mb-3"><strong>Personal Image Gallery</strong></h1>
+        <hr>
         <?php
-        foreach ($images_array_chunk as $row_images_array) {
-            echo '<div class="row" style="margin-bottom:1.5em;">';
 
-            foreach ($row_images_array as $image_array) {
+        if (count($images_array_chunk) == 0) {
+
         ?>
-                <div class="col-md-3 col-sm-12 col-xs-12">
-                    <div class="card" style="margin-bottom: 0.5rem;">
-                        <a data-fancybox="private-gallery" href="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>"><img class="card-img-top" src="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>" alt="Card image cap" class="img-fluid"></a>
-                        <div class="card-body">
-                            <h5 class="card-title" style="margin-bottom:0.40em;font-size:1.35rem;"><?php echo $image_array['image_title']; ?></h5>
-                            <!-- <hr> -->
-                            <p class="card-text" style="font-size: 1rem;font-family: cursive;"><?php echo ($image_array['image_description'] != "") ? $image_array['image_description'] : "NA"; ?></p>
-                            <!-- <hr>
-                            <p class="card-text ml-auto"><small class="text-muted" style="font-size:85%;font-weight:600;">Posted by - <i class="fa fa-user-circle" aria-hidden="true"></i> <?php echo $image_array['name']; ?></small></p> -->
+            <h4 class="text-center">No images in private gallery! Create an account and add one ....</h4>
+            <?php
+
+        } else {
+            foreach ($images_array_chunk as $row_images_array) {
+                echo '<div class="row" style="margin-bottom:1.5em;">';
+
+                foreach ($row_images_array as $image_array) {
+            ?>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="card" style="margin-bottom: 0.5rem;">
+                            <a data-fancybox="private-gallery" title="<?php echo $image_array['image_name']; ?>" href="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>"><img class="card-img-top" src="./uploads/user_<?php echo $logged_in_user . "/" . $image_array['image_name']; ?>" alt="Card image cap" class="img-fluid"></a>
+                            <div class="card-body">
+                                <h5 class="card-title" style="margin-bottom:0.40em;font-size:1.35rem;"><?php echo $image_array['image_title']; ?></h5>
+                                <!-- <hr> -->
+                                <p class="card-text" style="font-size: 1rem;font-family: cursive;"><?php echo ($image_array['image_description'] != "") ? $image_array['image_description'] : "NA"; ?></p>
+                                <!-- <hr>
+                                <p class="card-text ml-auto"><small class="text-muted" style="font-size:85%;font-weight:600;">Posted by - <i class="fa fa-user-circle" aria-hidden="true"></i> <?php echo $image_array['name']; ?></small></p> -->
+                            </div>
                         </div>
                     </div>
-                </div>
         <?php
-            }
+                }
 
-            echo '</div>';
+                echo '</div>';
+            }
         }
         ?>
     </div>
 
-    <!-- pagination -->
-    <div class="pagination" style="padding-bottom: 2em;">
-        <?php echo $pagination->createLinks(); ?>
+    <div class="pagination_cont" style="padding-bottom: 2em;text-align:center;">
+        <div class="inner_div" style="display: inline-block;margin: auto;">
+            <?php
+            if ($total_records != 0) {
+                echo $pagination->createLinks();
+            }
+            ?>
+        </div>
     </div>
 
 </div>
