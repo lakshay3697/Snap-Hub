@@ -20,7 +20,7 @@ include_once("header.php");
             <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
         </div>
         <div class="form-group">
-            <label for="password2">Password</label>
+            <label for="password2">Confirm Password</label>
             <input type="password" class="form-control" name="password2" placeholder="Confirm Password" required>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
