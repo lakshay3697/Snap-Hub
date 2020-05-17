@@ -9,11 +9,11 @@ include_once("header.php");
 <div class="container">
     <form id="login_form">
         <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">Email<span class="text-danger">*</span></label>
             <input type="email" class="form-control" name="email" placeholder="Enter email" required>
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">Password<span class="text-danger">*</span></label>
             <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

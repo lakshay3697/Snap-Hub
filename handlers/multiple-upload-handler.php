@@ -27,7 +27,7 @@ if ($_POST['type'] == "validate_image") {
             if (!preg_match('/^[a-zA-Z0-9-_ ]+$/', $uploaded_image_input_name)) {
                 // Error (Character not allowed in file name found)
                 $error_flag = 1;
-                echo json_encode(array("STATUS" => "error", "message" => "Not a valid character for input image's name!"));
+                echo json_encode(array("STATUS" => "error", "message" => "Not a valid character for input image's name..., Only a-z,A-Z,0-9,-_ are allowed!"));
                 die;
             }
         }
@@ -50,10 +50,10 @@ if ($_POST['type'] == "validate_image") {
             echo json_encode(array("STATUS" => "error", "message" => "Input image title needs to be between 4-50 characters!"));
             die;
         } else {
-            if (!preg_match("/^[a-zA-Z. ]*$/", $uploaded_image_title)) {
+            if (!preg_match("/^[a-zA-Z0-9. ]*$/", $uploaded_image_title)) {
                 // Error (Character not allowed in image title)
                 $error_flag = 1;
-                echo json_encode(array("STATUS" => "error", "message" => "Input image title can have only letters, spaces and dots!"));
+                echo json_encode(array("STATUS" => "error", "message" => "Input image title can have only letters, spaces, digits and dots!"));
                 die;
             }
         }

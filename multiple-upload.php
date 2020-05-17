@@ -101,9 +101,9 @@ include_once("footer.php");
             file_meta['image_title'] = image_title;
             file_meta['image_description'] = image_description;
             file_array['file_meta'] = file_meta;
-            
+
             uploaded_valid_files.push(file_array);
-            
+
             create_filePreview_list(uploaded_valid_files);
           }, 3000);
         }
@@ -120,7 +120,7 @@ include_once("footer.php");
     if (document.getElementById("file_preview_list")) {
       document.getElementById("file_preview_list").remove();
     }
-    
+
     var file_list = uploaded_files_array;
 
     var list = '';
@@ -139,7 +139,7 @@ include_once("footer.php");
   }
 
   $(document).on('click', '.remove', function() {
-    
+
     var indexRemove = $(this).attr('id'); // $(this) refers to button that was clicked
 
     uploaded_valid_files.splice(indexRemove, 1);
@@ -149,49 +149,45 @@ include_once("footer.php");
 
   $(document).on('click', '#multi_file_upload', function() {
 
-    if(uploaded_valid_files.length>0)
-    {
+    if (uploaded_valid_files.length > 0) {
       var formData = new FormData();
 
       var file_meta_json = {};
 
-      uploaded_valid_files.forEach(function(file_info,index)
-      {
-        var key = 'file_'+index;
+      uploaded_valid_files.forEach(function(file_info, index) {
+        var key = 'file_' + index;
         formData.append(key, file_info['file']);
         file_meta_json[key] = file_info['file_meta'];
       });
-      
-      formData.append("files_meta",JSON.stringify(file_meta_json));
-      formData.append("type","multi_file_upload");
-      
+
+      formData.append("files_meta", JSON.stringify(file_meta_json));
+      formData.append("type", "multi_file_upload");
+
       $.ajax({
-      type: 'POST',
-      dataType: 'JSON',
-      url: './handlers/multiple-upload-handler.php',
-      data: formData,
-      contentType: false,
-      processData: false,
-      cache: false,
-      success: function(data) {
+        type: 'POST',
+        dataType: 'JSON',
+        url: './handlers/multiple-upload-handler.php',
+        data: formData,
+        contentType: false,
+        processData: false,
+        cache: false,
+        success: function(data) {
 
           if (data.STATUS == 'error') {
-          toastr.error(data.message,"Multiple Images Upload Module Error!");
+            toastr.error(data.message, "Multiple Images Upload Module Error!");
           } else {
-          toastr.success(data.message,"Multiple Images Upload Module Success!");
+            toastr.success(data.message, "Multiple Images Upload Module Success!");
+            if (document.getElementById("file_preview_list")) {
+              document.getElementById("file_preview_list").remove();
+            }
           }
 
-      },
-      error: function(res) {
-      }
+        },
+        error: function(res) {}
       });
 
       return false;
     }
-    
+
   });
-
-
-
-
 </script>
