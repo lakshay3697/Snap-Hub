@@ -3,19 +3,21 @@
 // Authorization check ............
 
 session_start();
-if(!isset($_SESSION['user_id'])) {
-  header("Location: ./login.php");
-  die;
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ./login.php");
+    die;
 }
 
 // ................................
 
-$page = "index";
+$page = "add-images";
 include_once("header.php");
 
 ?>
 
-<div class="container">
+<div class="container" style="padding-bottom:5em;">
+    <h3 class="text-center"><strong>Single Image Uploader</strong></h3>
+    <hr>
     <form id="add_image_form">
         <div class="form-group">
             <label for="name">Image Name<span class="text-danger">*</span></label>
@@ -44,48 +46,47 @@ include_once("footer.php");
 ?>
 
 <script>
-  $('#add_image_form').submit((e) => {
-    var formElement = "#add_image_form";
-    
-    e.preventDefault();
-    var image_name = e.currentTarget.img_name.value;
-    var image_title = e.currentTarget.img_title.value;
-    var image_description = e.currentTarget.img_description.value;
-    var uploaded_image = e.currentTarget.img_upload.files[0];
+    $('#add_image_form').submit((e) => {
+        var formElement = "#add_image_form";
 
-    var formData = new FormData();
-    formData.append('uploaded_image', uploaded_image);
-    formData.append('type', 'add_images');
-    formData.append('image_name', image_name);
-    formData.append('image_title', image_title);
-    formData.append('image_description', image_description);
+        e.preventDefault();
+        var image_name = e.currentTarget.img_name.value;
+        var image_title = e.currentTarget.img_title.value;
+        var image_description = e.currentTarget.img_description.value;
+        var uploaded_image = e.currentTarget.img_upload.files[0];
 
-    $(formElement).find('button[type="submit"]').attr('disabled', 'disabled');
-    
-    $.ajax({
-    type: 'POST',
-    dataType: 'JSON',
-    url: './add_images_handler.php',
-    data: formData,
-    contentType: false,
-    processData: false,
-    cache: false,
-    success: function(data) {
+        var formData = new FormData();
+        formData.append('uploaded_image', uploaded_image);
+        formData.append('type', 'add_images');
+        formData.append('image_name', image_name);
+        formData.append('image_title', image_title);
+        formData.append('image_description', image_description);
 
-        if (data.STATUS == 'error') {
-        $(formElement).find('button[type="submit"]').removeAttr('disabled');
-        toastr.error(data.message,"Add Images Module Error!");
-        } else {
-        toastr.success(data.message,"Add Images Module Success!");
-        $('#add_image_form').trigger("reset");
-        $(formElement).find('button[type="submit"]').removeAttr('disabled');
-        }
+        $(formElement).find('button[type="submit"]').attr('disabled', 'disabled');
 
-    },
-    error: function(res) {
-    }
+        $.ajax({
+            type: 'POST',
+            dataType: 'JSON',
+            url: './add_images_handler.php',
+            data: formData,
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function(data) {
+
+                if (data.STATUS == 'error') {
+                    $(formElement).find('button[type="submit"]').removeAttr('disabled');
+                    toastr.error(data.message, "Add Images Module Error!");
+                } else {
+                    toastr.success(data.message, "Add Images Module Success!");
+                    $('#add_image_form').trigger("reset");
+                    $(formElement).find('button[type="submit"]').removeAttr('disabled');
+                }
+
+            },
+            error: function(res) {}
+        });
+
+        return false;
     });
-
-    return false;
-  });
 </script>

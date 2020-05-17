@@ -10,12 +10,14 @@ if (!isset($_SESSION['user_id'])) {
 
 // ................................
 
-$page = "index";
+$page = "add_multiple_images";
 include_once("header.php");
 
 ?>
 
-<div class="container">
+<div class="container" style="padding-bottom:5em;">
+  <h3 class="text-center"><strong>Multiple Image Uploader</strong></h3>
+  <hr>
   <div class="form-container mb-2">
     <form id="validate_image_form">
       <div class="form-group">
@@ -37,7 +39,10 @@ include_once("header.php");
       <button type="submit" class="btn btn-primary">Validate File</button>
     </form>
   </div>
-  <div id="file_preview_div">
+  <hr>
+  <h4 class="text-center">Uploaded Files Preview</h4>
+  <hr>
+  <div id="file_preview_div" class="mt-2 mb-3">
 
   </div>
   <button id="multi_file_upload" type="button" class="btn btn-primary">Upload All</button>
@@ -52,9 +57,6 @@ include_once("footer.php");
 <script>
   var uploaded_valid_files = [];
 
-  console.log("Here before submit");
-  console.log(uploaded_valid_files);
-
   $('#validate_image_form').submit((e) => {
     var formElement = "#validate_image_form";
 
@@ -63,11 +65,6 @@ include_once("footer.php");
     var image_title = e.currentTarget.img_title.value;
     var image_description = e.currentTarget.img_description.value;
     var uploaded_image = e.currentTarget.img_upload.files[0];
-    // console.log(image_name);
-    // console.log(image_title);
-    // console.log(image_description);
-    // console.log(uploaded_image);
-    // debugger;
 
     var formData = new FormData();
     formData.append('uploaded_image', uploaded_image);
@@ -77,9 +74,6 @@ include_once("footer.php");
     formData.append('image_description', image_description);
 
     $(formElement).find('button[type="submit"]').attr('disabled', 'disabled');
-
-    console.log("Just before ajax");
-    console.log(uploaded_valid_files);
 
     $.ajax({
       type: 'POST',
@@ -107,11 +101,9 @@ include_once("footer.php");
             file_meta['image_title'] = image_title;
             file_meta['image_description'] = image_description;
             file_array['file_meta'] = file_meta;
-            // console.log(file_array);
-            // debugger;
+            
             uploaded_valid_files.push(file_array);
-            console.log("In ajax success callback");
-            console.log(uploaded_valid_files);
+            
             create_filePreview_list(uploaded_valid_files);
           }, 3000);
         }
@@ -128,66 +120,37 @@ include_once("footer.php");
     if (document.getElementById("file_preview_list")) {
       document.getElementById("file_preview_list").remove();
     }
-    // console.log(uploaded_files_array);
-    // debugger;
+    
     var file_list = uploaded_files_array;
-    console.log("Inside this preview section creating function");
-    console.log(file_list);
 
     var list = '';
 
     file_list.map(function(file, index) {
-      list += '<li class="list-group-item">' + file["file"]["name"] + '<button class="remove" id="' + index + '">Remove</button></li>';
+      list += '<li class="list-group-item mb-2">' + file["file"]["name"] + '<span style="float:right;"><button class="remove btn btn-danger" id="' + index + '">Remove</button></span></li>';
     });
-
-    console.log(list);
 
     var child = document.createElement('ul');
     child.className = "list-group";
     child.id = "file_preview_list";
     child.innerHTML = list;
-    // child = child.firstChild;
-
-    console.log("Created element");
-    console.log(child);
 
     document.getElementById('file_preview_div').appendChild(child);
 
-    console.log(uploaded_valid_files);
-
-    // debugger;
   }
 
-  console.log("Here after submit");
-  console.log(uploaded_valid_files);
-
   $(document).on('click', '.remove', function() {
-    // console.log(uploaded_valid_files);
-    // debugger;
+    
     var indexRemove = $(this).attr('id'); // $(this) refers to button that was clicked
 
-    console.log("Just before removing file from preview list");
-    console.log(uploaded_valid_files);
-
     uploaded_valid_files.splice(indexRemove, 1);
-
-    console.log("After removing file from preview list");
-    console.log(uploaded_valid_files);
-    // e.preventDefault();
 
     create_filePreview_list(uploaded_valid_files);
   });
 
   $(document).on('click', '#multi_file_upload', function() {
-    console.log("Inside the multi file upload click handler");
-    console.log(uploaded_valid_files);
 
     if(uploaded_valid_files.length>0)
     {
-      // var formElement = "#add_image_form";
-    
-      // e.preventDefault();
-
       var formData = new FormData();
 
       var file_meta_json = {};
@@ -198,26 +161,9 @@ include_once("footer.php");
         formData.append(key, file_info['file']);
         file_meta_json[key] = file_info['file_meta'];
       });
-      // var image_name = e.currentTarget.img_name.value;
-      // var image_title = e.currentTarget.img_title.value;
-      // var image_description = e.currentTarget.img_description.value;
-      // var uploaded_image = e.currentTarget.img_upload.files[0];
-
-      // console.log(formData);
-      // console.log(file_meta_json);
-
+      
       formData.append("files_meta",JSON.stringify(file_meta_json));
       formData.append("type","multi_file_upload");
-
-      // debugger;
-
-      // formData.append('uploaded_image', uploaded_image);
-      // formData.append('type', 'add_images');
-      // formData.append('image_name', image_name);
-      // formData.append('image_title', image_title);
-      // formData.append('image_description', image_description);
-
-      // $(formElement).find('button[type="submit"]').attr('disabled', 'disabled');
       
       $.ajax({
       type: 'POST',
@@ -230,12 +176,9 @@ include_once("footer.php");
       success: function(data) {
 
           if (data.STATUS == 'error') {
-          // $(formElement).find('button[type="submit"]').removeAttr('disabled');
           toastr.error(data.message,"Multiple Images Upload Module Error!");
           } else {
           toastr.success(data.message,"Multiple Images Upload Module Success!");
-          // $('#add_image_form').trigger("reset");
-          // $(formElement).find('button[type="submit"]').removeAttr('disabled');
           }
 
       },
@@ -245,7 +188,6 @@ include_once("footer.php");
 
       return false;
     }
-    // debugger;
     
   });
 

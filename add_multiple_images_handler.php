@@ -98,9 +98,6 @@ if ($_POST['type'] == "validate_image") {
 }
 
 if ($_POST['type'] == "multi_file_upload") {
-    // echo '<pre>';
-    // print_r($_POST);
-    // print_r($_FILES);
 
     // Since the files and data coming from multiple file uploader is valid (Validated in step 1 so now i will simply upload files and then make insertions)
 
