@@ -1,6 +1,6 @@
 <?php
 
-require "con_pdo.php";
+require "../con-pdo.php";
 
 session_start();
 
@@ -114,10 +114,10 @@ if($_POST['type']=="add_images")
             // Rename file as per the name provided by user (New file name needs to be unique to get away with the issue of image with similar name as that of already uploaded  overriding it)
             $newfilename = $uploaded_image_input_name. "_" . $_SESSION['user_id'] . "_" . uniqid("",TRUE) . "." . $uploaded_file_ext;
 
-            if (!file_exists('./uploads/user_'.$_SESSION['user_id']))
-                mkdir('./uploads/user_'.$_SESSION['user_id']);
+            if (!file_exists('../uploads/user_'.$_SESSION['user_id']))
+                mkdir('../uploads/user_'.$_SESSION['user_id']);
 
-            if (move_uploaded_file($uploaded_image_file_tmp, './uploads/user_'. $_SESSION['user_id'] . '/' . $newfilename))
+            if (move_uploaded_file($uploaded_image_file_tmp, '../uploads/user_'. $_SESSION['user_id'] . '/' . $newfilename))
             {
                 // File uploaded .... So making an entry in user_images table 
 

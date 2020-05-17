@@ -1,6 +1,6 @@
 <?php
 
-require "con_pdo.php";
+require "../con-pdo.php";
 
 session_start();
 
@@ -89,7 +89,7 @@ if ($_POST['type'] == "validate_image") {
             echo json_encode(array("STATUS" => "error", "message" => "Uploaded file's size is greater than 2 MB!"));
             die;
         } else {
-            echo json_encode(array("STATUS" => "success", "message" => "Uploaded file's is valid!"));
+            echo json_encode(array("STATUS" => "success", "message" => "Uploaded file is valid!"));
             die;
         }
     }
@@ -105,8 +105,8 @@ if ($_POST['type'] == "multi_file_upload") {
 
     $files_meta_array = json_decode($_POST['files_meta'],True);
 
-    if (!file_exists('./uploads/user_'.$_SESSION['user_id'])) // If directory doesn't exist's for the logged in user then make one 
-        mkdir('./uploads/user_'.$_SESSION['user_id']);
+    if (!file_exists('../uploads/user_'.$_SESSION['user_id'])) // If directory doesn't exist's for the logged in user then make one 
+        mkdir('../uploads/user_'.$_SESSION['user_id']);
 
     $files_failed = 0;
 
@@ -125,7 +125,7 @@ if ($_POST['type'] == "multi_file_upload") {
         {
             $newfilename = $files_meta_array[$file_key]['image_name']. "_" . $_SESSION['user_id'] . "_" . uniqid("",TRUE) . "." . $uploaded_file_ext;
 
-            if (move_uploaded_file($uploaded_image_file_tmp, './uploads/user_'. $_SESSION['user_id'] . '/' . $newfilename))
+            if (move_uploaded_file($uploaded_image_file_tmp, '../uploads/user_'. $_SESSION['user_id'] . '/' . $newfilename))
             {
                 // File uploaded .... So making an entry in user_images table 
 
@@ -137,7 +137,7 @@ if ($_POST['type'] == "multi_file_upload") {
                 }
                 else
                 {
-                    unlink('./uploads/user_'. $_SESSION['user_id'] . '/' . $newfilename);
+                    unlink('../uploads/user_'. $_SESSION['user_id'] . '/' . $newfilename);
                     $files_failed++;
                 }
             }

@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 // ................................
 
 error_reporting(0);
-include_once 'pagination.php';
+include_once './helpers/pagination.php';
 $limit = 8;
 
 $logged_in_user = $_SESSION['user_id'];
@@ -70,7 +70,7 @@ $curl_request_query_string .= "referrer=pvtlist&logged_in_user=" . $logged_in_us
 
 // echo $_SERVER['SERVER_NAME']."/Pics_Gallore/fetch_images.php?" . $curl_request_query_string."\n";
 
-$images_fetch_resp = json_decode(httpGet($_SERVER['SERVER_NAME'] . "/Pics_Gallore/fetch_images.php?" . $curl_request_query_string), true);
+$images_fetch_resp = json_decode(httpGet($_SERVER['SERVER_NAME'] . "/Pics_Gallore/handlers/gallery-handler.php?" . $curl_request_query_string), true);
  
 $images_array_chunk = $images_fetch_resp['data'];
 

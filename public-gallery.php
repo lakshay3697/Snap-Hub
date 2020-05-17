@@ -2,7 +2,7 @@
 
 error_reporting(0);
 
-include_once 'pagination.php';
+include_once './helpers/pagination.php';
 
 $limit = 8;
 
@@ -60,7 +60,7 @@ $curl_request_query_string .= "referrer=publist";
 
 // echo $_SERVER['SERVER_NAME']."/Pics_Gallore/fetch_images.php?" . $curl_request_query_string."\n"; die;
 
-$images_fetch_resp = json_decode(httpGet($_SERVER['SERVER_NAME'] . "/Pics_Gallore/fetch_images.php?" . $curl_request_query_string), true);
+$images_fetch_resp = json_decode(httpGet($_SERVER['SERVER_NAME'] . "/Pics_Gallore/handlers/gallery-handler.php?" . $curl_request_query_string), true);
 
 $images_array_chunk = $images_fetch_resp['data'];
 
@@ -72,7 +72,7 @@ else
 if($total_records!=0)
 {
     $pagConfig = array(
-        'baseURL' => 'http://localhost/Pics_Gallore/image_list.php',
+        'baseURL' => 'http://localhost/Pics_Gallore/public-gallery.php',
         'totalRows' => $total_records,
         'perPage' => $limit
     );
@@ -226,14 +226,14 @@ include_once("footer.php");
         var redirect_url = "";
 
         if (sort_by == "date" && sort_order == "asc") {
-            redirect_url = "./image_list.php";
+            redirect_url = "./public-gallery.php";
 
             if (par_dat.hasOwnProperty('page') && par_dat['page'] != "") {
                 redirect_url = redirect_url + '?page=' + par_dat['page'];
             }
 
         } else {
-            redirect_url = "./image_list.php?sort_by=" + sort_by + "&order=" + sort_order;
+            redirect_url = "./public-gallery.php?sort_by=" + sort_by + "&order=" + sort_order;
 
             if (par_dat.hasOwnProperty('page') && par_dat['page'] != "") {
                 redirect_url = redirect_url + '&page=' + par_dat['page'];

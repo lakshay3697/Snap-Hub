@@ -38,7 +38,7 @@ include_once("footer.php");
             $.ajax({
                 type: 'POST',
                 dataType: 'JSON',
-                url: './form_handler.php',
+                url: './handlers/account-handler.php',
                 data: {
                     type: 'login',
                     form_data: {

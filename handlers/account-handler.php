@@ -1,6 +1,6 @@
 <?php
 
-require "con_pdo.php";
+require "../con-pdo.php";
 
 session_start();
 

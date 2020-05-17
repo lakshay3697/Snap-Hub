@@ -67,7 +67,7 @@ include_once("footer.php");
         $.ajax({
             type: 'POST',
             dataType: 'JSON',
-            url: './add_images_handler.php',
+            url: './handlers/single-upload-handler.php',
             data: formData,
             contentType: false,
             processData: false,

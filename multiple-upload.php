@@ -78,7 +78,7 @@ include_once("footer.php");
     $.ajax({
       type: 'POST',
       dataType: 'JSON',
-      url: './add_multiple_images_handler.php',
+      url: './handlers/multiple-upload-handler.php',
       data: formData,
       contentType: false,
       processData: false,
@@ -168,7 +168,7 @@ include_once("footer.php");
       $.ajax({
       type: 'POST',
       dataType: 'JSON',
-      url: './add_multiple_images_handler.php',
+      url: './handlers/multiple-upload-handler.php',
       data: formData,
       contentType: false,
       processData: false,
