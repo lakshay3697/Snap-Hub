@@ -133,6 +133,7 @@ if($_POST['type']=="add_images")
                 else
                 {
                     // Error (Couldn't insert)
+                    unlink('../uploads/user_'. $_SESSION['user_id'] . '/' . $newfilename);
                     $error_flag=1;
                     echo json_encode(array("STATUS"=>"error","message"=>"File uploaded but insertion failed!"));
                     die;

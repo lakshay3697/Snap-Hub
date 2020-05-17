@@ -58,9 +58,9 @@ foreach ($query_params as $param => $param_value) {
 
 $curl_request_query_string .= "referrer=publist";
 
-// echo $_SERVER['SERVER_NAME']."/Pics_Gallore/fetch_images.php?" . $curl_request_query_string."\n"; die;
+// echo $_SERVER['SERVER_NAME']."/Snaphub/fetch_images.php?" . $curl_request_query_string."\n"; die;
 
-$images_fetch_resp = json_decode(httpGet($_SERVER['SERVER_NAME'] . "/Pics_Gallore/handlers/gallery-handler.php?" . $curl_request_query_string), true);
+$images_fetch_resp = json_decode(httpGet($_SERVER['SERVER_NAME'] . "/Snaphub/handlers/gallery-handler.php?" . $curl_request_query_string), true);
 
 $images_array_chunk = $images_fetch_resp['data'];
 
@@ -72,7 +72,7 @@ else
 if($total_records!=0)
 {
     $pagConfig = array(
-        'baseURL' => 'http://localhost/Pics_Gallore/public-gallery.php',
+        'baseURL' => 'http://localhost/Snaphub/public-gallery.php',
         'totalRows' => $total_records,
         'perPage' => $limit
     );
