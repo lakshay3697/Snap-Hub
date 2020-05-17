@@ -46,21 +46,21 @@ if (session_status() == PHP_SESSION_NONE) {
                             <a class="nav-link" href="./sign-up.php">Register</a>
                         </li>
                     <?php } else { ?>
+                        <li class="nav-item">
+                            <a class="nav-link"><i class="fa fa-users"></i>&nbsp;<?php echo ucwords($_SESSION['user_name']); ?></a>
+                        </li>
                         <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toogle" data-toggle="dropdown" id="navbarDropdownMenu"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;<?php echo $_SESSION['user_name']; ?>&nbsp;<i class="fa fa-caret-down"></i></a>
-                            <div class="dropdown-menu" style="height:105px;">
-                                <a href="./public-gallery.php" class="dropdown-item">Public Gallery</a>
-                                <a href="./my-gallery.php" class="dropdown-item">My Gallery</a>
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-left: 1.5em;text-decoration:none;color:black;">Add Ideas</a>
-                                <ul class="dropdown-menu" style="width:65%;margin-left:100px;margin-top: -6px;height:80px;">
-                                    <li style="margin-left:1em;">
-                                        <a href="./single-upload.php" style="color:black;font-size:smaller;">Single Image Uploader</a>
-                                    </li>
-                                    <li style="margin-left:1em;">
-                                        <a href="./multiple-upload.php" style="color:black;font-size:smaller;">Multiple Image Uploader</a>
-                                    </li>
-                                </ul>
+                            <a href="#" class="nav-link dropdown-toogle" data-toggle="dropdown" id="navbarDropdownMenu">Add Ideas&nbsp;<i class="fa fa-caret-down"></i></a>
+                            <div class="dropdown-menu">
+                                <a href="./single-upload.php" class="dropdown-item">Single Image Uploader</a>
+                                <a href="./multiple-upload.php" class="dropdown-item">Multiple Image Uploader</a>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./public-gallery.php">Public Gallery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./my-gallery.php">My Gallery</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./logout.php">Logout</a>
