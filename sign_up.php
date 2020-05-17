@@ -65,7 +65,10 @@ include_once("footer.php");
                     toastr.error(data.message, "Registration Error!");
                 } else {
                     toastr.success(data.message, "Registration Successful!");
-                    window.location = './login.php';
+                    
+                    setTimeout(function(){
+                        window.location = './login.php';
+                    },3000);
                 }
 
             },

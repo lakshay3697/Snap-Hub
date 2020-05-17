@@ -52,7 +52,10 @@ include_once("footer.php");
                         toastr.error(data.message,"Login Error!");
                     } else {
                         toastr.success(data.message,"Login Successful!");
-                        window.location = './my-gallery.php';
+                        
+                        setTimeout(function(){
+                            window.location = './my-gallery.php';
+                        },3000);
 
                     }
 

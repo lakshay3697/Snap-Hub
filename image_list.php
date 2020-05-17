@@ -43,10 +43,10 @@ if (!array_key_exists('sort_by', $query_params)) {
         $query_params['sort_by'] = "date";
 }
 if (!array_key_exists('order', $query_params)) {
-    $query_params['order'] = "Ascending";
+    $query_params['order'] = "asc";
 } else {
     if ($query_params['order'] == "")
-        $query_params['order'] = "Ascending";
+        $query_params['order'] = "asc";
 }
 
 $curl_request_query_string = "";
@@ -110,11 +110,11 @@ include_once("header.php");
                 <div class="form-group col-xs-12 col-sm-6">
                     <label for="sort_order">Sort order</label><br>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Ascending" checked>
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="asc" checked>
                         <label class="form-check-label" for="inlineRadio1">Asc</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Descending">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="desc">
                         <label class="form-check-label" for="inlineRadio2">Desc</label>
                     </div>
                 </div>
@@ -208,7 +208,7 @@ include_once("footer.php");
     }
 
     if (par_dat.hasOwnProperty('order') && par_dat['order'] != "") {
-        if (par_dat['order'] == "Ascending") {
+        if (par_dat['order'] == "asc") {
             $('#inlineRadio1').prop('checked', true);
         } else {
             $('#inlineRadio2').prop('checked', true);
@@ -225,7 +225,7 @@ include_once("footer.php");
         var sort_order = e.currentTarget.inlineRadioOptions.value;
         var redirect_url = "";
 
-        if (sort_by == "date" && sort_order == "Ascending") {
+        if (sort_by == "date" && sort_order == "asc") {
             redirect_url = "./image_list.php";
 
             if (par_dat.hasOwnProperty('page') && par_dat['page'] != "") {

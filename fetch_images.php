@@ -38,7 +38,7 @@ if($_REQUEST['referrer']=='publist')
             $order_by_column_name = "user_images.image_name";
         }
         
-        $sort_order = ($_REQUEST['order']=="Ascending")?"ASC":"DESC";
+        $sort_order = ($_REQUEST['order']=="asc")?"ASC":"DESC";
 
         $get_images .= " ORDER BY ".$order_by_column_name." ".$sort_order;
     }
@@ -96,7 +96,7 @@ elseif($_REQUEST['referrer']=='pvtlist')
             $order_by_column_name = "user_images.image_name";
         }
         
-        $sort_order = ($_REQUEST['order']=="Ascending")?"ASC":"DESC";
+        $sort_order = ($_REQUEST['order']=="asc")?"ASC":"DESC";
 
         $get_images .= " ORDER BY ".$order_by_column_name." ".$sort_order;
     }
